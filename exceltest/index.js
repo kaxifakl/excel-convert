@@ -8,7 +8,8 @@ let regs = ["！", "，", "。", "；", "~", "《", "》", "（", "）", "？",
 let app = new Vue({
     el: "#app",
     data: {
-        files: ''
+        files: '',
+        tex: ''
     },
     mounted() {
 
@@ -36,8 +37,8 @@ let app = new Vue({
                 }
                 sheetArray = this.trimArray(sheetArray);
                 let json = this.convertToJson(sheetArray);
+                this.tex = JSON.stringify(json);
                 console.log(json);
-                console.log(JSON.stringify(json))
             }
         },
 
@@ -127,6 +128,7 @@ let app = new Vue({
                         break;
                     case '@':
                         break;
+                    case '$d':
                     default:
                         dataInfoArray.push(strArray);
                         break;
@@ -180,6 +182,22 @@ let app = new Vue({
                     array.push(parseInt(numStr));
                 }
                 return array;
+            }
+            if (type == "string[]") {
+                let strArray = data.split(',');
+                return strArray;
+            }
+            if (type == 'boolean[]') {
+                let boolStrArray = data.split(',');
+                let boolArray = [];
+                for (let str of boolStrArray) {
+                    if (str == 'true') {
+                        boolArray.push(true);
+                    }
+                    if (str == 'false') {
+                        boolArray.push(false);
+                    }
+                }
             }
             return null;
         }
