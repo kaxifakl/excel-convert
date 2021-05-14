@@ -29,6 +29,7 @@ let app = new Vue({
         formatData(workbook) {
             let sheetNameArray = workbook.SheetNames;
             let sheets = workbook.Sheets;
+            let obj = {}
             for (let name of sheetNameArray) {
                 let sheet = sheets[name];
                 let sheetArray = this.objectToArray(sheet);
@@ -36,9 +37,9 @@ let app = new Vue({
                     continue;
                 }
                 sheetArray = this.trimArray(sheetArray);
-                let json = this.convertToJson(sheetArray);
-                this.tex = JSON.stringify(json);
-                console.log(json);
+                this.convertToJson(obj, sheetArray, name);
+                this.tex = JSON.stringify(obj);
+                console.log(obj);
             }
         },
 
@@ -102,7 +103,7 @@ let app = new Vue({
             return newArray;
         },
         /**解析 */
-        convertToJson(sheetArray) {
+        convertToJson(obj, sheetArray, sheetName) {
             let keyInfoArray = [];
             let typeInfoArray = null;
             let dataInfoArray = [];
@@ -134,7 +135,7 @@ let app = new Vue({
                         break;
                 }
             }
-            let json = { data: [] };
+            obj[sheetName] = [];
 
             let dataIndex = [];
             for (let key of keyInfoArray) {
@@ -142,7 +143,7 @@ let app = new Vue({
             }
 
             for (let arr of dataInfoArray) {
-                let obj = {};
+                let newobj = {};
                 for (let key of keyInfoArray) {
                     let type = typeInfoArray[key.index];
                     if (type == null) {
@@ -150,11 +151,10 @@ let app = new Vue({
                     }
                     let strData = arr[key.index];
                     let data = this.changeDateType(strData, type);
-                    obj[key.key] = data;
+                    newobj[key.key] = data;
                 }
-                json.data.push(obj);
+                obj[sheetName].push(newobj);
             }
-            return json;
         },
         changeDateType(data, type) {
             for (let i = 0; i < regs.length / 2; i++) {
