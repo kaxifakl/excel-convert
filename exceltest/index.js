@@ -38,9 +38,9 @@ let app = new Vue({
                 }
                 sheetArray = this.trimArray(sheetArray);
                 this.convertToJson(obj, sheetArray, name);
-                this.tex = JSON.stringify(obj);
-                console.log(obj);
             }
+            this.tex = JSON.stringify(obj);
+            console.log(obj);
         },
 
         objectToArray(obj) {
