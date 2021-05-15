@@ -1,4 +1,6 @@
-console.log(XLSX);
+// console.log(XLSX);
+// console.log(js_beautify)
+
 let regs = ["！", "，", "。", "；", "~", "《", "》", "（", "）", "？",
     "”", "｛", "｝", "“", "：", "【", "】", "”", "‘", "’", "!", ",",
     ".", ";", "`", "<", ">", "(", ")", "?", "'", "{", "}", "\"",
@@ -39,7 +41,7 @@ let app = new Vue({
                 sheetArray = this.trimArray(sheetArray);
                 this.convertToJson(obj, sheetArray, name);
             }
-            this.tex = JSON.stringify(obj);
+            this.tex = js_beautify(JSON.stringify(obj));
             console.log(obj);
         },
 
