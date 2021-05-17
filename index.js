@@ -17,6 +17,7 @@ let app = new Vue({
 
     },
     methods: {
+        /**上传文件 */
         inputfile(e) {
             this.files = e.target.files[0];
             console.log(this.files)
