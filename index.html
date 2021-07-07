@@ -10,10 +10,11 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
+    <div id="app">
         <div>
             <input type="file" accept=".xlsx,.xls" @change='inputfile'>
-            <input type="button" value="下载">
+            <input type="checkbox" v-model="needBeautify">美化
+            <input type="button" value="下载" @click='download'>
         </div>
         <div>
             <textarea name="" id="" cols="60" rows="20" style="overflow:visible" wrap="off">{{tex}}</textarea>
@@ -22,6 +23,8 @@
     <script src="./lib/xlsx.full.min.js"></script>
     <script src="./lib/vue.min.js"></script>
     <script src="./lib/beautify.js"></script>
+    <script src="./lib/jszip.min.js"></script>
+    <script src="./excelconvert.js"></script>
     <script src="./index.js"></script>
 </body>
 
