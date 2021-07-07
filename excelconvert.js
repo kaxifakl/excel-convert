@@ -131,6 +131,9 @@ let excelconvert = function() {
                     continue;
                 }
                 let strData = arr[key.index];
+                if (strData == null) {
+                    continue;
+                }
                 let data = this.changeDateType(strData, type);
                 newobj[key.key] = data;
             }
