@@ -25,19 +25,19 @@ let app = new Vue({
                     var workbook = XLSX.read(data, { type: 'array' });
                     let jsonData = ec.formatData(workbook);
                     this.jsonDataArray.push({ name: file.name.replace('.xlsx', '').replace('.xls', ''), data: jsonData });
-                    console.log(this.jsonDataArray)
-                        //this.tex = jsonData.strData;
                 };
                 reader.readAsArrayBuffer(file);
             }
         },
         download() {
-            if (this.tex == '') {
+            if (this.jsonDataArray.length <= 0) {
                 return;
             }
-            zip.file('a.json', this.tex);
+            for (let jsonData of this.jsonDataArray) {
+                zip.file(jsonData.name + '.json', jsonData.data.strData);
+            }
             zip.generateAsync({ type: "blob" })
-                .then(function(content) {
+                .then(function (content) {
                     var eleLink = document.createElement('a');
                     eleLink.download = 'excelconvert.zip';
                     eleLink.style.display = 'none';
