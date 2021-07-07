@@ -13,8 +13,9 @@
     <div id="app">
         <div>
             <input type="file" accept=".xlsx,.xls" @change='inputfile'>
-            <input type="checkbox" v-model="needBeautify">美化
+
             <input type="button" value="下载" @click='download'>
+            <input type="checkbox" value="美化" v-model='needBeautify'>美化
         </div>
         <div>
             <textarea name="" id="" cols="60" rows="20" style="overflow:visible" wrap="off">{{tex}}</textarea>

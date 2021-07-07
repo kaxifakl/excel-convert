@@ -8,7 +8,7 @@ let app = new Vue({
     data: {
         files: '',
         tex: '',
-        needBeautify: false
+        needBeautify: false,
     },
     mounted() {
 

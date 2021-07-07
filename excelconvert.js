@@ -61,7 +61,6 @@ let excelconvert = function() {
 
     /**去除表格空数据 */
     this.trimArray = (array) => {
-        console.log(array)
         let newArray = [];
         let minLen = 999999;
         for (let arr of array) {
@@ -72,8 +71,6 @@ let excelconvert = function() {
                 }
             }
         }
-        console.log(newArray)
-        console.log(minLen)
         for (let i = 0; i < minLen; i++) {
             let need = true;
             for (let arr of newArray) {
