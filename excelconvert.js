@@ -6,6 +6,7 @@ let excelconvert = function() {
         ":", "{", "}", "\"", "\'", "\'"
     ];
 
+    /**转换数据 */
     this.formatData = (workbook) => {
         let sheetNameArray = workbook.SheetNames;
         let sheets = workbook.Sheets;
@@ -23,6 +24,7 @@ let excelconvert = function() {
         return { obj: obj, strData: strData }
     };
 
+    /**将excel表对象转换为数据组 */
     this.objectToArray = (obj) => {
         let arr = [];
         for (var key in obj) {
@@ -41,6 +43,8 @@ let excelconvert = function() {
         }
         return arr;
     }
+
+    /**转换excel的key */
     this.formatKey = (key) => {
         let keyArray = key.split('');
         let yindex = parseInt(keyArray.pop());
@@ -55,7 +59,9 @@ let excelconvert = function() {
         return [keyNum, yindex];
     };
 
+    /**去除表格空数据 */
     this.trimArray = (array) => {
+        console.log(array)
         let newArray = [];
         let minLen = 999999;
         for (let arr of array) {
@@ -66,6 +72,8 @@ let excelconvert = function() {
                 }
             }
         }
+        console.log(newArray)
+        console.log(minLen)
         for (let i = 0; i < minLen; i++) {
             let need = true;
             for (let arr of newArray) {
@@ -83,7 +91,8 @@ let excelconvert = function() {
         }
         return newArray;
     };
-    /**解析 */
+
+    /**解析为Json对象 */
     this.convertToJson = (obj, sheetArray, sheetName) => {
         let keyInfoArray = [];
         let typeInfoArray = null;
@@ -141,6 +150,7 @@ let excelconvert = function() {
         }
     };
 
+    /**转换数据类型 */
     this.changeDateType = (data, type) => {
         for (let i = 0; i < this.regs.length / 2; i++) {
             data = data.replace(this.regs[i], this.regs[i + this.regs.length / 2]);
