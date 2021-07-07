@@ -6,9 +6,10 @@ const zip = new JSZip();
 let app = new Vue({
     el: "#app",
     data: {
-        files: '',
+        files: null,
         tex: '',
         needBeautify: false,
+        jsonDataArray: []
     },
     mounted() {
 
@@ -16,16 +17,19 @@ let app = new Vue({
     methods: {
         /**上传文件 */
         inputfile(e) {
-            this.files = e.target.files[0];
-            console.log(this.files)
-            var reader = new FileReader();
-            reader.onload = (e) => {
-                var data = new Uint8Array(e.target.result);
-                var workbook = XLSX.read(data, { type: 'array' });
-                let jsonData = ec.formatData(workbook);
-                this.tex = jsonData.strData;
-            };
-            reader.readAsArrayBuffer(this.files);
+            this.files = e.target.files;
+            for (let file of this.files) {
+                var reader = new FileReader();
+                reader.onload = (fileProgress) => {
+                    var data = new Uint8Array(fileProgress.target.result);
+                    var workbook = XLSX.read(data, { type: 'array' });
+                    let jsonData = ec.formatData(workbook);
+                    this.jsonDataArray.push({ name: file.name.replace('.xlsx', '').replace('.xls', ''), data: jsonData });
+                    console.log(this.jsonDataArray)
+                        //this.tex = jsonData.strData;
+                };
+                reader.readAsArrayBuffer(file);
+            }
         },
         download() {
             if (this.tex == '') {

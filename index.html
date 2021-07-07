@@ -12,7 +12,7 @@
 <body>
     <div id="app">
         <div>
-            <input type="file" accept=".xlsx,.xls" @change='inputfile'>
+            <input type="file" accept=".xlsx,.xls" @change='inputfile' multiple='multiple'>
 
             <input type="button" value="下载" @click='download'>
             <input type="checkbox" value="美化" v-model='needBeautify'>美化
