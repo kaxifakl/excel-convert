@@ -7,7 +7,6 @@ let app = new Vue({
     el: "#app",
     data: {
         files: null,
-        tex: '',
         needBeautify: false,
         jsonDataArray: []
     },
@@ -33,11 +32,13 @@ let app = new Vue({
             if (this.jsonDataArray.length <= 0) {
                 return;
             }
+
+            let beauty = this.needBeautify;
             for (let jsonData of this.jsonDataArray) {
-                zip.file(jsonData.name + '.json', jsonData.data.strData);
+                zip.file(jsonData.name + '.json', beauty ? js_beautify(jsonData.data.strData) : jsonData.data.strData);
             }
             zip.generateAsync({ type: "blob" })
-                .then(function (content) {
+                .then(function(content) {
                     var eleLink = document.createElement('a');
                     eleLink.download = 'excelconvert.zip';
                     eleLink.style.display = 'none';
