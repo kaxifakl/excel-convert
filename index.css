@@ -15,7 +15,7 @@ body {
 }
 
 #top {
-    height: 20%;
+    height: 35%;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -25,7 +25,7 @@ body {
 
 #content {
     width: 100%;
-    height: 80%;
+    height: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,9 +37,10 @@ body {
     width: 450px;
     height: 250px;
     position: relative;
-    background: linear-gradient(#5affcd, #7ffff9) no-repeat;
-    border: 1px solid rgb(238, 245, 103);
-    border-radius: 15px;
+    box-shadow: 0px 0px 2px 2px #c1ff5d;
+    /* background: linear-gradient(#5affcd, #7ffff9) no-repeat; */
+    /* border: 1px solid rgb(238, 245, 103); */
+    border-radius: 25px;
     /* border: 1px solid black; */
 }
 
@@ -57,4 +58,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#inputFont {
+    font-size: 2em;
+    color: rgba(131, 131, 131, 0.7);
+}
+
+#foot {
+    width: 100%;
+    height: 25%;
 }

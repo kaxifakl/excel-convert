@@ -13,12 +13,14 @@
     <div id="app">
 
         <div id="top">
-            <div>Excel-Convert</div>
+            <div>
+                <img src="./src/img/logo.png" alt="">
+            </div>
         </div>
         <div id="content">
             <div id="inputContent">
                 <div id="inputImg">
-                    <div>上传</div>
+                    <div id=inputFont>拖拽或点击上传</div>
                 </div>
                 <input id="inputRect" type="file" accept=".xlsx,.xls" @change='inputfile' multiple='multiple'>
             </div>
@@ -27,6 +29,7 @@
                 <input type="button" value="下载" @click='download'>
             </div>
         </div>
+        <div id="foot"></div>
     </div>
 
 
