@@ -138,6 +138,7 @@ let excelconvert = function() {
                 }
                 let strData = arr[key.index];
                 if (strData == null) {
+                    console.log(sheetName + ':' + key.key + '的数据存在空值');
                     continue;
                 }
                 let data = this.changeDateType(strData, type);
