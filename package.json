@@ -1,0 +1,28 @@
+{
+    "name": "excel-convert",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "directories": {
+        "doc": "docs",
+        "lib": "lib",
+        "test": "test"
+    },
+    "scripts": {
+        "test": "node ./test/test.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kaxifakl/excel-convert.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kaxifakl/excel-convert/issues"
+    },
+    "homepage": "https://github.com/kaxifakl/excel-convert#readme",
+    "dependencies": {
+        "@types/node": "^16.4.1"
+    }
+}

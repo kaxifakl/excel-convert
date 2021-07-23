@@ -1,4 +1,4 @@
-// console.log(XLSX);
+console.log(XLSX);
 // console.log(js_beautify)
 const ec = new excelconvert();
 const zip = new JSZip();
