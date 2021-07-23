@@ -9,7 +9,6 @@ let excelconvert = {
     convert: (data) => {
         let workbook = XLSX.read(data, { type: 'array' });
         let excelData = formatData(workbook);
-        console.log(excelData);
         return excelData;
     }
 }
@@ -30,6 +29,7 @@ function formatData(workbook) {
         sheetArray = trimArray(sheetArray);
         if (isTranspose(sheetArray)) {
             sheetArray = transposeArray(sheetArray);
+            sheetArray = trimArray(sheetArray);
         }
         convertToJson(obj, sheetArray, name);
     }
@@ -77,6 +77,16 @@ function trimArray(array) {
     let minLen = Infinity;
     for (let arr of array) {
         if (arr != null) {
+            let isAllNull = true;
+            for (let item of arr) {
+                if (item != null) {
+                    isAllNull = false;
+                    break;
+                }
+            }
+            if (isAllNull) {
+                continue;
+            }
             newArray.push(arr);
             if (arr.length < minLen) {
                 minLen = arr.length;
