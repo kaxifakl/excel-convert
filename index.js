@@ -1,6 +1,3 @@
-console.log(XLSX);
-// console.log(js_beautify)
-const ec = new excelconvert();
 const zip = new JSZip();
 
 let app = new Vue({
@@ -21,9 +18,10 @@ let app = new Vue({
                 var reader = new FileReader();
                 reader.onload = (fileProgress) => {
                     var data = new Uint8Array(fileProgress.target.result);
-                    var workbook = XLSX.read(data, { type: 'array' });
-                    let jsonData = ec.formatData(workbook);
+                    //var workbook = XLSX.read(data, { type: 'array' });
+                    let jsonData = excelconvert.convert(data);
                     this.jsonDataArray.push({ name: file.name.replace('.xlsx', '').replace('.xls', ''), data: jsonData });
+                    console.log(this.jsonDataArray);
                 };
                 reader.readAsArrayBuffer(file);
             }

@@ -13,7 +13,7 @@ let excelconvert = {
     }
 }
 
-module.exports = excelconvert;
+globalThis.excelconvert = module.exports = excelconvert;
 
 /**转换数据 */
 function formatData(workbook) {
