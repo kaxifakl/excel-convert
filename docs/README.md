@@ -19,6 +19,6 @@
 
   转置表格则与之相反，并且需要将符号@改为@T
 
-3.最新版cdn:https://cdn.jsdelivr.net/gh/kaxifakl/excel-convert@latest/dist/excelconvert.js
+3.最新版cdn:https://cdn.jsdelivr.net/gh/kaxifakl/excel-convert@latest/dist/excelconvert.min.js
 
-或对应版本cdn:https://cdn.jsdelivr.net/gh/kaxifakl/excel-convert@x.x.x/dist/excelconvert.js
+或对应版本cdn:https://cdn.jsdelivr.net/gh/kaxifakl/excel-convert@x.x.x/dist/excelconvert.min.js
