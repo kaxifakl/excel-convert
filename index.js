@@ -21,7 +21,7 @@ let app = new Vue({
                     //var workbook = XLSX.read(data, { type: 'array' });
                     let jsonData = excelconvert.convert(data);
                     this.jsonDataArray.push({ name: file.name.replace('.xlsx', '').replace('.xls', ''), data: jsonData });
-                    console.log(this.jsonDataArray);
+                    window.console.log(jsonData)
                 };
                 reader.readAsArrayBuffer(file);
             }
