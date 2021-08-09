@@ -5,7 +5,8 @@ let app = new Vue({
     data: {
         files: null,
         needBeautify: false,
-        jsonDataArray: []
+        toTs: false,
+        jsonDataArray: [],
     },
     mounted() {
 
@@ -18,10 +19,8 @@ let app = new Vue({
                 var reader = new FileReader();
                 reader.onload = (fileProgress) => {
                     var data = new Uint8Array(fileProgress.target.result);
-                    //var workbook = XLSX.read(data, { type: 'array' });
                     let jsonData = excelconvert.convert(data);
                     this.jsonDataArray.push({ name: file.name.replace('.xlsx', '').replace('.xls', ''), data: jsonData });
-                    window.console.log(jsonData)
                 };
                 reader.readAsArrayBuffer(file);
             }
@@ -31,9 +30,19 @@ let app = new Vue({
                 return;
             }
 
-            let beauty = this.needBeautify;
+            let fileExt = '.json';
+            if (this.toTs) {
+                fileExt = '.ts'
+            }
             for (let jsonData of this.jsonDataArray) {
-                zip.file(jsonData.name + '.json', beauty ? js_beautify(jsonData.data.strData) : jsonData.data.strData);
+                let strData = JSON.stringify(jsonData.data);
+                if (this.toTs) {
+                    strData = excelconvert.convertToTs(jsonData.name, jsonData.data);
+                }
+                if (this.needBeautify) {
+                    strData = js_beautify(strData);
+                }
+                zip.file(jsonData.name + fileExt, strData);
             }
             zip.generateAsync({ type: "blob" })
                 .then(function(content) {

@@ -11,6 +11,15 @@ let excelconvert = {
         let workbook = XLSX.read(data, { type: 'array' });
         let excelData = formatData(workbook);
         return excelData;
+    },
+    convertToTs: (fileName, jsonObj) => {
+        let keys = Object.keys(jsonObj);
+        let tsStr = 'export class ' + fileName + '{';
+        for (let key of keys) {
+            tsStr = tsStr + 'static ' + key.toString() + '=' + JSON.stringify(jsonObj[key]) + ';';
+        }
+        tsStr += '}'
+        return tsStr;
     }
 }
 
