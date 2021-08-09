@@ -5,4 +5,5 @@ let path = require('path');
 let url = path.join(__dirname + '/test.xlsx');
 let buffer = fs.readFileSync(url);
 
-excelconvert.convert(new Uint8Array(buffer))
+let json = excelconvert.convert(new Uint8Array(buffer))
+console.log(require('../dist/excelconvert'));
