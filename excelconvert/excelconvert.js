@@ -68,7 +68,16 @@ function objectToArray(obj) {
 /**转换excel的key */
 function formatKey(key) {
     let keyArray = key.split('');
-    let yindex = parseInt(keyArray.pop());
+
+    let yindex = 0;
+
+    let mul = 1;
+    while (!isNaN(parseInt(keyArray[keyArray.length - 1]))) {
+        let num = parseInt(keyArray.pop());
+        yindex = yindex + num * mul;
+        mul *= 10;
+    }
+
     let keyNum = 0;
     for (let str of keyArray) {
         let num = str.charCodeAt(0);
@@ -211,12 +220,13 @@ function convertToJson(obj, sheetArray, sheetName) {
 
 /**转换数据类型 */
 function changeDateType(data, type) {
+    //中文符号替换
     for (let i = 0; i < regs.length / 2; i++) {
         data = data.replace(regs[i], regs[i + regs.length / 2]);
     }
 
     if (type == 'number') {
-        return parseInt(data);
+        return parseFloat(data);
     }
     if (type == 'string') {
         return data;
@@ -233,7 +243,7 @@ function changeDateType(data, type) {
         let numberArray = data.split(',');
         let array = [];
         for (let numStr of numberArray) {
-            array.push(parseInt(numStr));
+            array.push(parseFloat(numStr));
         }
         return array;
     }
