@@ -7,4 +7,4 @@ let url = path.join(__dirname + '/test3.xlsx');
 let buffer = fs.readFileSync(url);
 
 let json = excelconvert.convert(new Uint8Array(buffer))
-console.log(json);
+console.log(json.table2[0].obj);

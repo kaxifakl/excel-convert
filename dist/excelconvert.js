@@ -210,7 +210,6 @@ function convertToJson(obj, sheetArray, sheetName) {
             let strData = arr[key.index];
             if (strData == null) {
                 console.log(sheetName + ':' + key.key + '的数据存在空值');
-                continue;
             }
             let data = changeDateType(strData, type);
             newobj[key.key] = data;
@@ -223,16 +222,27 @@ function convertToJson(obj, sheetArray, sheetName) {
 function changeDateType(data, type) {
     //中文符号替换
     for (let i = 0; i < regs.length / 2; i++) {
-        data = data.replace(regs[i], regs[i + regs.length / 2]);
+        if (data != null) {
+            data = data.replace(regs[i], regs[i + regs.length / 2]);
+        }
     }
 
     if (type == 'number') {
+        if (data == null) {
+            return 0;
+        }
         return parseFloat(data);
     }
     if (type == 'string') {
+        if (data == null) {
+            return '';
+        }
         return data;
     }
     if (type == 'boolean') {
+        if (data == null) {
+            return false;
+        }
         if (data == 'true') {
             return true;
         }
@@ -241,6 +251,9 @@ function changeDateType(data, type) {
         }
     }
     if (type == 'number[]') {
+        if (data == null) {
+            return [];
+        }
         let numberArray = data.split(',');
         let array = [];
         for (let numStr of numberArray) {
@@ -249,10 +262,16 @@ function changeDateType(data, type) {
         return array;
     }
     if (type == "string[]") {
+        if (data == null) {
+            return [];
+        }
         let strArray = data.split(',');
         return strArray;
     }
     if (type == 'boolean[]') {
+        if (data == null) {
+            return [];
+        }
         let boolStrArray = data.split(',');
         let boolArray = [];
         for (let str of boolStrArray) {
@@ -263,6 +282,12 @@ function changeDateType(data, type) {
                 boolArray.push(false);
             }
         }
+    }
+    if (type == 'object') {
+        if (data == null) {
+            return null;
+        }
+        return JSON.parse(data);
     }
     return null;
 }
