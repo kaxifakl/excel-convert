@@ -103,13 +103,18 @@ function formatKey(key) {
     }
 
     let keyNum = 0;
-    for (let str of keyArray) {
+    let len = keyArray.length;
+
+    for (let i = 0; i < len; i++) {
+        let str = keyArray[i];
         let num = str.charCodeAt(0);
         if (num >= 65 && num <= 90) {
             num -= 64;
-            keyNum += parseInt(num);
         }
+        let value = Math.pow(26, len - 1 - i) * num;
+        keyNum += value;
     }
+
     return [keyNum, yindex];
 };
 
