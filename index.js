@@ -19,8 +19,9 @@ let app = new Vue({
                 var reader = new FileReader();
                 reader.onload = (fileProgress) => {
                     var data = new Uint8Array(fileProgress.target.result);
-                    let jsonData = excelconvert.convert(data);
-                    this.jsonDataArray.push({ name: file.name.replace('.xlsx', '').replace('.xls', ''), data: jsonData });
+                    let fileName = file.name.replace('.xlsx', '').replace('.xls', '');
+                    let jsonData = excelconvert.convert(data, fileName);
+                    this.jsonDataArray.push({ name: fileName, data: jsonData });
                 };
                 reader.readAsArrayBuffer(file);
             }

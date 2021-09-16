@@ -4,11 +4,25 @@ const regs = ["！", "，", "。", "；", "~", "《", "》", "（", "）", "？"
     ".", ";", "`", "<", ">", "(", ")", "?", "'", "{", "}", "\"",
     ":", "{", "}", "\"", "\'", "\'"
 ];
+let defaultTypeValue = {
+    "number": 0,
+    "string": '',
+    "boolean": false,
+    "number[]": [],
+    "string[]": [],
+    "boolean[]": [],
+    "object": null
+}
+
+let customParse = {}
 
 let excelconvert = {
-    convert: (data) => {
+    convert: (data, fileName) => {
         let workbook = XLSX.read(data, { type: 'array' });
         let excelData = formatData(workbook);
+        if (this.customConvert != null && fileName != null) {
+            this.customConvert(excelData);
+        }
         return excelData;
     },
     convertToTs: (fileName, jsonObj) => {
@@ -19,7 +33,17 @@ let excelconvert = {
         }
         tsStr += '}'
         return tsStr;
-    }
+    },
+    setDefaultTypeValue(type, value) {
+        defaultTypeValue[type] = value;
+    },
+    getDefaultTypeValue(type) {
+        return defaultTypeValue[type];
+    },
+    addCustomTypeParse(type, func) {
+        customParse[type] = func;
+    },
+    customConvert: null
 }
 
 globalThis.excelconvert = module.exports = excelconvert;
@@ -79,13 +103,18 @@ function formatKey(key) {
     }
 
     let keyNum = 0;
-    for (let str of keyArray) {
+    let len = keyArray.length;
+
+    for (let i = 0; i < len; i++) {
+        let str = keyArray[i];
         let num = str.charCodeAt(0);
         if (num >= 65 && num <= 90) {
             num -= 64;
-            keyNum += parseInt(num);
         }
+        let value = Math.pow(26, len - 1 - i) * num;
+        keyNum += value;
     }
+
     return [keyNum, yindex];
 };
 
@@ -226,22 +255,17 @@ function changeDateType(data, type) {
         }
     }
 
+    if (data == null) {
+        return defaultTypeValue[type];
+    }
+
     if (type == 'number') {
-        if (data == null) {
-            return 0;
-        }
         return parseFloat(data);
     }
     if (type == 'string') {
-        if (data == null) {
-            return '';
-        }
         return data;
     }
     if (type == 'boolean') {
-        if (data == null) {
-            return false;
-        }
         if (data == 'true') {
             return true;
         }
@@ -250,9 +274,6 @@ function changeDateType(data, type) {
         }
     }
     if (type == 'number[]') {
-        if (data == null) {
-            return [];
-        }
         let numberArray = data.split(',');
         let array = [];
         for (let numStr of numberArray) {
@@ -261,16 +282,10 @@ function changeDateType(data, type) {
         return array;
     }
     if (type == "string[]") {
-        if (data == null) {
-            return [];
-        }
         let strArray = data.split(',');
         return strArray;
     }
     if (type == 'boolean[]') {
-        if (data == null) {
-            return [];
-        }
         let boolStrArray = data.split(',');
         let boolArray = [];
         for (let str of boolStrArray) {
@@ -283,10 +298,10 @@ function changeDateType(data, type) {
         }
     }
     if (type == 'object') {
-        if (data == null) {
-            return null;
-        }
         return JSON.parse(data);
+    }
+    if (customParse[type] != null) {
+        return customParse[type](data);
     }
     return null;
 }
