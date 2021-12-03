@@ -1,9 +1,12 @@
 const XLSX = require('./xlsx.mini.min');
+/**中英文符号转换 */
 const regs = ["！", "，", "。", "；", "~", "《", "》", "（", "）", "？",
     "”", "｛", "｝", "“", "：", "【", "】", "”", "‘", "’", "!", ",",
     ".", ";", "`", "<", ">", "(", ")", "?", "'", "{", "}", "\"",
     ":", "{", "}", "\"", "\'", "\'"
 ];
+
+/**默认类型初始值 */
 let defaultTypeValue = {
     "number": 0,
     "string": '',
@@ -14,17 +17,21 @@ let defaultTypeValue = {
     "object": null
 }
 
+/**自定义解析 */
 let customParse = {}
 
 let excelconvert = {
+    XLSX: XLSX,
+    /**转换为json */
     convert: (data, fileName) => {
         let workbook = XLSX.read(data, { type: 'array' });
         let excelData = formatData(workbook);
         if (this.customConvert != null && fileName != null) {
-            this.customConvert(excelData);
+            this.customConvert(excelData, fileName);
         }
         return excelData;
     },
+    /**转换为ts格式 */
     convertToTs: (fileName, jsonObj) => {
         let keys = Object.keys(jsonObj);
         let tsStr = 'export class ' + fileName + '{';
@@ -34,16 +41,40 @@ let excelconvert = {
         tsStr += '}'
         return tsStr;
     },
+    /**设置默认类型初始值 */
     setDefaultTypeValue(type, value) {
         defaultTypeValue[type] = value;
     },
+    /**获取默认类型初始值 */
     getDefaultTypeValue(type) {
         return defaultTypeValue[type];
     },
+    /**添加自定义解析 */
     addCustomTypeParse(type, func) {
         customParse[type] = func;
     },
-    customConvert: null
+    /**解析完成后的自定义解析 */
+    customConvert: null,
+    /**将数组数据转换为对象数据 */
+    arrayToObject(dataArray, key) {
+        if (dataArray == null || key == null) {
+            console.error('传入值为空');
+            return null;
+        }
+        let newObj = {};
+        for (let i = 0; i < dataArray.length; i++) {
+            let data = dataArray[i];
+            if (data == null) {
+                continue;
+            }
+            if (data[key] == null) {
+                console.error('不存在改主键：' + key);
+                continue;
+            }
+            newObj[data[key]] = dataArray[i];
+        }
+        return newObj;
+    }
 }
 
 globalThis.excelconvert = module.exports = excelconvert;

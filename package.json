@@ -11,7 +11,8 @@
     "scripts": {
         "test": "node ./test/test.js",
         "build-bowser": "browserify --standalone excelconvert ./excelconvert/excelconvert.js > ./dist/excelconvert.js",
-        "build-min": "uglifyjs ./dist/excelconvert.js -o ./dist/excelconvert.min.js -c"
+        "build-min": "uglifyjs ./dist/excelconvert.js -o ./dist/excelconvert.min.js -c",
+        "quick-build": "npm run build-bowser && npm run build-min"
     },
     "repository": {
         "type": "git",
