@@ -36,3 +36,82 @@ Excel-Convert将帮助每一位程序员减少无用劳动力！
 3.最新版cdn:https://cdn.jsdelivr.net/gh/kaxifakl/excel-convert@latest/dist/excelconvert.min.js
 
 或对应版本cdn:https://cdn.jsdelivr.net/gh/kaxifakl/excel-convert@x.x.x/dist/excelconvert.min.js
+
+4.内置类型
+|   类型    |      示例       | 默认值 |
+| :-------: | :-------------: | :----: |
+|  number   |        1        |   0    |
+|  string   |       123       |   ''   |
+|  boolean  |      true       | false  |
+| number[]  |     1,2,3,4     |   []   |
+| string[]  |     a,b,c,d     |   []   |
+| boolean[] | true,false,true |   []   |
+|  object   |    {"num":1}    |  null  |
+
+# 使用
+1.引入
+```
+const excelconvert=require('excelconvert');
+```
+或
+```
+require('excelconvert');
+globalThis.excelconvert;
+```
+
+2.快速使用
+
+```
+require('excelconvert');
+
+···
+···
+
+let buffer = fs.readFileSync(excelUrl);
+let jsonData = globalThis.excelconvert.convert(new Uint8Array(buffer),filename);
+```
+
+3.方法
+```
+/**转换为json
+* @param {*} data Uint8Array格式数据
+* @param {*} fileName 去除后缀的文件名
+*/
+convert(data, fileName)
+
+/**json转换为ts格式
+* @param {*} fileName 去除后缀的文件名
+* @param {*} jsonObj convert出来的json对象
+*/
+convertToTs(fileName, jsonObj)
+
+/**设置默认类型初始值
+* @param {*} type 
+* @param {*} value 
+*/
+setDefaultTypeValue(type, value)
+
+/**获取默认类型初始值
+* @param {*} type 
+*/
+getDefaultTypeValue(type)
+
+/**添加自定义解析
+* @param {*} type 类型,例 "BigFloat"
+* @param {*} func 解析方法,例(data)=>{return parseFloat(data)}
+*/
+addCustomTypeParse(type, func)
+
+/**设置解析完成后的自定义解析
+* @param {*} fuc  例(excelData, fileName)=>{...}
+*/
+setCustomConvert(fuc)
+
+/**将数组数据转换为对象数据
+* @param {*} dataArray 数据组
+* @param {*} key 主键
+*/
+arrayToObject(dataArray, key)
+```
+
+详细使用请查看test/test.js

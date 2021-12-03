@@ -20,14 +20,17 @@ let defaultTypeValue = {
 /**自定义解析 */
 let customParse = {}
 
+/**自定义转换 */
+let _customConvert = null;
+
 let excelconvert = {
     XLSX: XLSX,
     /**转换为json */
     convert: (data, fileName) => {
         let workbook = XLSX.read(data, { type: 'array' });
         let excelData = formatData(workbook);
-        if (this.customConvert != null && fileName != null) {
-            this.customConvert(excelData, fileName);
+        if (_customConvert != null && fileName != null) {
+            _customConvert(excelData, fileName);
         }
         return excelData;
     },
@@ -53,8 +56,10 @@ let excelconvert = {
     addCustomTypeParse(type, func) {
         customParse[type] = func;
     },
-    /**解析完成后的自定义解析 */
-    customConvert: null,
+    /**设置解析完成后的自定义解析 */
+    setCustomConvert(fuc) {
+        _customConvert = fuc;
+    },
     /**将数组数据转换为对象数据 */
     arrayToObject(dataArray, key) {
         if (dataArray == null || key == null) {
@@ -327,6 +332,7 @@ function changeDateType(data, type) {
                 boolArray.push(false);
             }
         }
+        return boolArray;
     }
     if (type == 'object') {
         return JSON.parse(data);

@@ -1,10 +1,13 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.excelconvert = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const XLSX = require('./xlsx.mini.min');
+/**中英文符号转换 */
 const regs = ["！", "，", "。", "；", "~", "《", "》", "（", "）", "？",
     "”", "｛", "｝", "“", "：", "【", "】", "”", "‘", "’", "!", ",",
     ".", ";", "`", "<", ">", "(", ")", "?", "'", "{", "}", "\"",
     ":", "{", "}", "\"", "\'", "\'"
 ];
+
+/**默认类型初始值 */
 let defaultTypeValue = {
     "number": 0,
     "string": '',
@@ -15,17 +18,24 @@ let defaultTypeValue = {
     "object": null
 }
 
+/**自定义解析 */
 let customParse = {}
 
+/**自定义转换 */
+let _customConvert = null;
+
 let excelconvert = {
+    XLSX: XLSX,
+    /**转换为json */
     convert: (data, fileName) => {
         let workbook = XLSX.read(data, { type: 'array' });
         let excelData = formatData(workbook);
-        if (this.customConvert != null && fileName != null) {
-            this.customConvert(excelData);
+        if (_customConvert != null && fileName != null) {
+            _customConvert(excelData, fileName);
         }
         return excelData;
     },
+    /**转换为ts格式 */
     convertToTs: (fileName, jsonObj) => {
         let keys = Object.keys(jsonObj);
         let tsStr = 'export class ' + fileName + '{';
@@ -35,16 +45,42 @@ let excelconvert = {
         tsStr += '}'
         return tsStr;
     },
+    /**设置默认类型初始值 */
     setDefaultTypeValue(type, value) {
         defaultTypeValue[type] = value;
     },
+    /**获取默认类型初始值 */
     getDefaultTypeValue(type) {
         return defaultTypeValue[type];
     },
+    /**添加自定义解析 */
     addCustomTypeParse(type, func) {
         customParse[type] = func;
     },
-    customConvert: null
+    /**设置解析完成后的自定义解析 */
+    setCustomConvert(fuc) {
+        _customConvert = fuc;
+    },
+    /**将数组数据转换为对象数据 */
+    arrayToObject(dataArray, key) {
+        if (dataArray == null || key == null) {
+            console.error('传入值为空');
+            return null;
+        }
+        let newObj = {};
+        for (let i = 0; i < dataArray.length; i++) {
+            let data = dataArray[i];
+            if (data == null) {
+                continue;
+            }
+            if (data[key] == null) {
+                console.error('不存在改主键：' + key);
+                continue;
+            }
+            newObj[data[key]] = dataArray[i];
+        }
+        return newObj;
+    }
 }
 
 globalThis.excelconvert = module.exports = excelconvert;
@@ -297,6 +333,7 @@ function changeDateType(data, type) {
                 boolArray.push(false);
             }
         }
+        return boolArray;
     }
     if (type == 'object') {
         return JSON.parse(data);
