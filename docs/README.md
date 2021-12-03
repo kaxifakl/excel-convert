@@ -1,5 +1,8 @@
 ![](./../src/img/logo.png)
 
+## Excel-Convert是一个开源、可自定义解析的excel转json、ts工具
+
+
 # 简介
 你是否曾经被**策划发来的表格迷乱了双眼？
 
@@ -35,33 +38,31 @@ Excel-Convert将帮助每一位程序员减少无用劳动力！
 
 3.最新版cdn:https://cdn.jsdelivr.net/gh/kaxifakl/excel-convert@latest/dist/excelconvert.min.js
 
-或对应版本cdn:https://cdn.jsdelivr.net/gh/kaxifakl/excel-convert@x.x.x/dist/excelconvert.min.js
-
 4.内置类型
 |   类型    |      示例       | 默认值 |
 | :-------: | :-------------: | :----: |
 |  number   |        1        |   0    |
 |  string   |       123       |   ''   |
 |  boolean  |      true       | false  |
-| number[]  |     1,2,3,4     |   []   |
-| string[]  |     a,b,c,d     |   []   |
-| boolean[] | true,false,true |   []   |
+| number[]  |     1,2,3,4     |  [ ]   |
+| string[]  |     a,b,c,d     |  [ ]   |
+| boolean[] | true,false,true |  [ ]   |
 |  object   |    {"num":1}    |  null  |
 
 # 使用
 1.引入
-```
-const excelconvert=require('excelconvert');
+```js
+const excelconvert = require('excelconvert');
 ```
 或
-```
+```js
 require('excelconvert');
 globalThis.excelconvert;
 ```
 
 2.快速使用
 
-```
+```js
 require('excelconvert');
 
 ···
@@ -72,7 +73,7 @@ let jsonData = globalThis.excelconvert.convert(new Uint8Array(buffer),filename);
 ```
 
 3.方法
-```
+```js
 /**转换为json
 * @param {*} data Uint8Array格式数据
 * @param {*} fileName 去除后缀的文件名
