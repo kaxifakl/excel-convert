@@ -287,7 +287,7 @@ function changeDateType(data, type) {
     //中文符号替换
     for (let i = 0; i < regs.length / 2; i++) {
         if (data != null) {
-            data = data.replace(regs[i], regs[i + regs.length / 2]);
+            data = data.replace(new RegExp(regs[i], 'g'), regs[i + regs.length / 2]);
         }
     }
 
