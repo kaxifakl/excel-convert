@@ -25,10 +25,14 @@
         "url": "https://github.com/kaxifakl/excel-convert/issues"
     },
     "homepage": "https://github.com/kaxifakl/excel-convert#readme",
-    "dependencies": {},
     "devDependencies": {
         "@types/node": "^16.4.1",
         "browserify": "^17.0.0",
         "uglify-js": "^3.14.0"
-    }
+    },
+    "files": [
+        "dist/excelconvert.min.js",
+        "index.js",
+        "index.d.ts"
+    ]
 }
