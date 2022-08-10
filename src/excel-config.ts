@@ -1,10 +1,13 @@
 export class ExcelConfig {
+
     public DEFAULT_SIGN = {
         "isTranspose": "@T",
         "key": "$k",
         "type": "$t",
         "annotation": "//",
-        "data": "$d"
+        "data": "$d",
+        "default": "@",
+        "mainKey": "$m"
     }
 
     public reg: string[] = [

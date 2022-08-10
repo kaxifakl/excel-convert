@@ -7,6 +7,10 @@ export class ExcelSheet {
 
     public sourceData: any[] = null;
 
+    public mainKey: string = null;
+
+    public configArray: string[] = null;
+
     public keyArray: string[] = null;
 
     public typeArray: string[] = null;
@@ -23,6 +27,7 @@ export class ExcelSheet {
     }
 
     private parse(): void {
+        let mainKeyIndex = null;
         for (let i = 0; i < this.sourceData.length; i++) {
             let array = this.sourceData[i];
             let head = array[this.excelConfig.signIndex];
@@ -38,7 +43,18 @@ export class ExcelSheet {
             } else if (head == null || head == DEFAULT_SIGN.data) {
                 array.splice(this.excelConfig.signIndex, 1);
                 this.dataArray.push(array);
+            } else if (head == DEFAULT_SIGN.default || DEFAULT_SIGN.isTranspose) {
+                array.splice(this.excelConfig.signIndex, 1);
+                this.configArray = array;
+                for (let ele of this.configArray) {
+                    if (ele == DEFAULT_SIGN.mainKey) {
+                        mainKeyIndex = this.configArray.indexOf(ele);
+                    }
+                }
             }
+        }
+        if (mainKeyIndex != null && mainKeyIndex != -1) {
+            this.mainKey = this.keyArray[mainKeyIndex];
         }
 
         this.jsonObject = [];
@@ -87,7 +103,13 @@ export class ExcelSheet {
     }
 
     public getJsonObject(): any {
-        if (this.jsonObject != null) {
+        if (this.mainKey != null) {
+            let obj = {};
+            for (let data of this.jsonObject) {
+                obj[data[this.mainKey]] = data;
+            }
+            return obj;
+        } else {
             return this.jsonObject;
         }
     }
