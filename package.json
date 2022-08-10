@@ -12,7 +12,8 @@
         "test": "node ./test/test.js",
         "build-bowser": "browserify --standalone excelconvert ./excelconvert/excelconvert.js > ./dist/excelconvert.js",
         "build-min": "uglifyjs ./dist/excelconvert.js -o ./dist/excelconvert.min.js -c",
-        "quick-build": "npm run build-bowser && npm run build-min"
+        "quick-build": "npm run build-bowser && npm run build-min",
+        "dev":"ts-node ./src/index.ts"
     },
     "repository": {
         "type": "git",
@@ -26,13 +27,14 @@
     },
     "homepage": "https://github.com/kaxifakl/excel-convert#readme",
     "devDependencies": {
-        "@types/node": "^16.4.1",
-        "browserify": "^17.0.0",
-        "uglify-js": "^3.14.0"
+        "@types/node": "^16.4.1"
     },
     "files": [
         "dist/excelconvert.min.js",
         "index.js",
         "index.d.ts"
-    ]
+    ],
+    "dependencies": {
+        "xlsx": "^0.18.5"
+    }
 }
