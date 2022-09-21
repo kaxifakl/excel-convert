@@ -18,7 +18,9 @@ export class ExcelSheet {
     /**值 */
     public dataArray: any[] = [];
 
-    private jsonObject: any = null;
+    public mainKeyIndex: number = null;
+
+    public jsonObject: any = null;
 
     constructor(name: string, sourceData: any, excelConfig: ExcelConfig) {
         this.name = name;
@@ -28,34 +30,25 @@ export class ExcelSheet {
     }
 
     private parse(): void {
-        let mainKeyIndex = null;
         for (let i = 0; i < this.sourceData.length; i++) {
+            //数据array
             let array = this.sourceData[i];
-            let head = array[this.excelConfig.signIndex];
+            //默认标记
             let DEFAULT_SIGN = this.excelConfig.DEFAULT_SIGN;
-            if (head === DEFAULT_SIGN.key) {
-                array.splice(this.excelConfig.signIndex, 1);
-                this.keyArray = array;
-                continue;
-            } else if (head === DEFAULT_SIGN.type) {
-                array.splice(this.excelConfig.signIndex, 1);
-                this.typeArray = array;
-                continue;
-            } else if (head == null || head == DEFAULT_SIGN.data) {
-                array.splice(this.excelConfig.signIndex, 1);
-                this.dataArray.push(array);
-            } else if (head == DEFAULT_SIGN.default || DEFAULT_SIGN.isTranspose) {
-                array.splice(this.excelConfig.signIndex, 1);
-                this.configArray = array;
-                for (let ele of this.configArray) {
-                    if (ele == DEFAULT_SIGN.mainKey) {
-                        mainKeyIndex = this.configArray.indexOf(ele);
-                    }
-                }
+            let sign = null;
+            if (this.excelConfig.mode == 1) {
+                let defaultSign = this.excelConfig.defaultSignLine[i + 1];
+                sign = defaultSign || DEFAULT_SIGN.data;
+            } else {
+                sign = array[this.excelConfig.signIndex] || DEFAULT_SIGN.data
             }
+
+            let signParse = this.excelConfig.defaultSignParse[sign];
+            signParse?.(this, array);
         }
-        if (mainKeyIndex != null && mainKeyIndex != -1) {
-            this.mainKey = this.keyArray[mainKeyIndex];
+
+        if (this.mainKeyIndex != null) {
+            this.mainKey = this.keyArray[this.mainKeyIndex];
         }
 
         this.jsonObject = [];
@@ -76,9 +69,10 @@ export class ExcelSheet {
                     console.log(this.name + ':' + keyStr + '的数据存在空值');
                 }
                 let data = this.parseData(dataStr, typeStr);
-                dataObject[keyStr] = data;
+                this.excelConfig.dataSetterParse(dataObject,keyStr,data,i);
             }
-            this.jsonObject.push(dataObject);
+
+            this.excelConfig.dataLineSetterParse(this,dataObject);
         }
     }
 

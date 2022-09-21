@@ -9,7 +9,7 @@
         "test": "test"
     },
     "scripts": {
-        "test": "node ./test/test.js",
+        "test": "ts-node ./test/test.ts",
         "build-bowser": "browserify --standalone excelconvert ./excelconvert/excelconvert.js > ./dist/excelconvert.js",
         "build-min": "uglifyjs ./dist/excelconvert.js -o ./dist/excelconvert.min.js -c",
         "quick-build": "npm run build-bowser && npm run build-min",

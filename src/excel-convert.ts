@@ -2,9 +2,6 @@ import { read, WorkBook } from 'xlsx';
 import { ExcelBook } from './core/excel-book';
 import { ExcelSheet } from './core/excel-sheet';
 import { ExcelConfig } from './excel-config';
-export interface Config {
-    isTranspose?: boolean;
-}
 
 export class ExcelConvert {
 
@@ -15,10 +12,7 @@ export class ExcelConvert {
         return this.formatData(workBook, fileName);
     }
 
-    private parseConfig(config: Config): void {
-        // config.isTranspose && (this.config.isTranspose = config.isTranspose);
-    }
-
+    /**表格数据格式化 */
     private formatData(workBook: WorkBook, fileName: string): ExcelBook {
         let workSheetNames = workBook.SheetNames;
         let workSheets = workBook.Sheets;

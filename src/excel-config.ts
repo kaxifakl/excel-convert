@@ -1,5 +1,7 @@
-export class ExcelConfig {
+import { ExcelSheet } from "./core/excel-sheet";
 
+export class ExcelConfig {
+    /**默认标记 */
     public DEFAULT_SIGN = {
         /**是否转置 */
         "isTranspose": "@T",
@@ -12,11 +14,12 @@ export class ExcelConfig {
         /**数据 */
         "data": "$d",
         /**默认 */
-        "default": "@",
+        "default": "@"
+    }
+
+    public DEFAULT_TAG = {
         /**主键 */
         "mainKey": "$m",
-        /**自定义头 */
-        "customData":"$c"
     }
 
     public reg: string[] = [
@@ -75,5 +78,60 @@ export class ExcelConfig {
         "object": (value: string) => {
             return JSON.parse(value);
         }
+    }
+
+    private defaultSignCall = (sheet: ExcelSheet, array: any[]) => {
+        if (this.mode != 1) {
+            array.splice(this.signIndex, 1);
+        }
+        sheet.configArray = array;
+        for (let ele of sheet.configArray) {
+            if (ele == this.DEFAULT_TAG.mainKey) {
+                let mainKeyIndex = sheet.configArray.indexOf(ele);
+                if (mainKeyIndex != null && mainKeyIndex != -1) {
+                    sheet.mainKeyIndex = mainKeyIndex;
+                }
+            }
+        }
+    }
+
+    public defaultSignParse = {
+        [this.DEFAULT_SIGN.key]: (sheet: ExcelSheet, array: any[]) => {
+            if (this.mode != 1) {
+                array.splice(this.signIndex, 1);
+            }
+            sheet.keyArray = array;
+        },
+        [this.DEFAULT_SIGN.type]: (sheet: ExcelSheet, array: any[]) => {
+            if (this.mode != 1) {
+                array.splice(this.signIndex, 1);
+            }
+            sheet.typeArray = array;
+        },
+        [this.DEFAULT_SIGN.data]: (sheet: ExcelSheet, array: any[]) => {
+            if (this.mode != 1) {
+                array.splice(this.signIndex, 1);
+            }
+            sheet.dataArray.push(array);
+        },
+        [this.DEFAULT_SIGN.default]: this.defaultSignCall,
+        [this.DEFAULT_SIGN.isTranspose]: this.defaultSignCall
+    }
+
+    /**默认标记行，设置后，无需再表格中添加标记 */
+    public defaultSignLine = {
+        1: [this.DEFAULT_SIGN.annotation],
+        2: [this.DEFAULT_SIGN.key],
+        3: [this.DEFAULT_SIGN.type],
+    }
+
+    public mode: number = 1;
+
+    public dataSetterParse = (dataObject: any, keyStr: string, data: any, i: number) => {
+        dataObject[keyStr] = data;
+    }
+
+    public dataLineSetterParse = (sheet: ExcelSheet, dataObject: any) => {
+        sheet.jsonObject.push(dataObject);
     }
 }
