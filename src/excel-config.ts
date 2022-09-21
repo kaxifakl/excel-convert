@@ -1,13 +1,22 @@
 export class ExcelConfig {
 
     public DEFAULT_SIGN = {
+        /**是否转置 */
         "isTranspose": "@T",
+        /**键 */
         "key": "$k",
+        /**类型 */
         "type": "$t",
+        /**注释 */
         "annotation": "//",
+        /**数据 */
         "data": "$d",
+        /**默认 */
         "default": "@",
-        "mainKey": "$m"
+        /**主键 */
+        "mainKey": "$m",
+        /**自定义头 */
+        "customData":"$c"
     }
 
     public reg: string[] = [

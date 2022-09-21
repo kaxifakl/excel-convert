@@ -1,20 +1,21 @@
 import { ExcelConfig } from "../excel-config";
 
 export class ExcelSheet {
+    /**工作簿名字 */
     public name: string = null;
-
+    /**配置 */
     public excelConfig: ExcelConfig = null;
-
+    /**源数据 */
     public sourceData: any[] = null;
-
+    /**主键 */
     public mainKey: string = null;
 
     public configArray: string[] = null;
-
+    /**键 */
     public keyArray: string[] = null;
-
+    /**类型 */
     public typeArray: string[] = null;
-
+    /**值 */
     public dataArray: any[] = [];
 
     private jsonObject: any = null;
