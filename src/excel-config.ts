@@ -84,10 +84,9 @@ export class ExcelConfig {
         if (this.mode != 1) {
             array.splice(this.signIndex, 1);
         }
-        sheet.configArray = array;
-        for (let ele of sheet.configArray) {
+        for (let ele of array) {
             if (ele == this.DEFAULT_TAG.mainKey) {
-                let mainKeyIndex = sheet.configArray.indexOf(ele);
+                let mainKeyIndex = array.indexOf(ele);
                 if (mainKeyIndex != null && mainKeyIndex != -1) {
                     sheet.mainKeyIndex = mainKeyIndex;
                 }
@@ -120,9 +119,10 @@ export class ExcelConfig {
 
     /**默认标记行，设置后，无需再表格中添加标记 */
     public defaultSignLine = {
-        1: [this.DEFAULT_SIGN.annotation],
-        2: [this.DEFAULT_SIGN.key],
-        3: [this.DEFAULT_SIGN.type],
+        1: [this.DEFAULT_SIGN.default],
+        2: [this.DEFAULT_SIGN.annotation],
+        3: [this.DEFAULT_SIGN.key],
+        4: [this.DEFAULT_SIGN.type],
     }
 
     public mode: number = 1;
@@ -133,5 +133,17 @@ export class ExcelConfig {
 
     public dataLineSetterParse = (sheet: ExcelSheet, dataObject: any) => {
         sheet.jsonObject.push(dataObject);
+    }
+
+    public getSheetObject = (sheet: ExcelSheet) => {
+        if (sheet.mainKey != null) {
+            let obj = {};
+            for (let data of sheet.jsonObject) {
+                obj[data[sheet.mainKey]] = data;
+            }
+            return obj;
+        } else {
+            return sheet.jsonObject;
+        }
     }
 }

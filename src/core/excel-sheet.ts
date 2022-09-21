@@ -10,7 +10,6 @@ export class ExcelSheet {
     /**主键 */
     public mainKey: string = null;
 
-    public configArray: string[] = null;
     /**键 */
     public keyArray: string[] = null;
     /**类型 */
@@ -69,10 +68,10 @@ export class ExcelSheet {
                     console.log(this.name + ':' + keyStr + '的数据存在空值');
                 }
                 let data = this.parseData(dataStr, typeStr);
-                this.excelConfig.dataSetterParse(dataObject,keyStr,data,i);
+                this.excelConfig.dataSetterParse(dataObject, keyStr, data, i);
             }
 
-            this.excelConfig.dataLineSetterParse(this,dataObject);
+            this.excelConfig.dataLineSetterParse(this, dataObject);
         }
     }
 
@@ -98,14 +97,6 @@ export class ExcelSheet {
     }
 
     public getJsonObject(): any {
-        if (this.mainKey != null) {
-            let obj = {};
-            for (let data of this.jsonObject) {
-                obj[data[this.mainKey]] = data;
-            }
-            return obj;
-        } else {
-            return this.jsonObject;
-        }
+        return this.excelConfig.getSheetObject(this);
     }
 }
