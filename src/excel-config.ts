@@ -1,7 +1,7 @@
 import { ExcelSheet } from "./core/excel-sheet";
 
 export class ExcelConfig {
-    /**默认标记 */
+    /**内置标记 */
     public DEFAULT_SIGN = {
         /**是否转置 */
         "isTranspose": "@T",
@@ -119,13 +119,10 @@ export class ExcelConfig {
 
     /**默认标记行，设置后，无需再表格中添加标记 */
     public defaultSignLine = {
-        1: [this.DEFAULT_SIGN.default],
-        2: [this.DEFAULT_SIGN.annotation],
-        3: [this.DEFAULT_SIGN.key],
-        4: [this.DEFAULT_SIGN.type],
     }
 
-    public mode: number = 1;
+    /**模式0：标记模式  1：无标记模式（次模式下需要配置defaultSignLine） */
+    public mode: number = 0;
 
     public dataSetterParse = (dataObject: any, keyStr: string, data: any, i: number) => {
         dataObject[keyStr] = data;

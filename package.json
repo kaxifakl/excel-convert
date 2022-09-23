@@ -14,7 +14,8 @@
         "build-min": "uglifyjs ./dist/excelconvert.js -o ./dist/excelconvert.min.js -c",
         "quick-build": "npm run build-bowser && npm run build-min",
         "dev": "ts-node ./src/index.ts",
-        "rollup-build": "rollup -c"
+        "rollup-build": "rollup -c",
+        "template1":"ts-node ./template/template1/start.ts"
     },
     "repository": {
         "type": "git",
