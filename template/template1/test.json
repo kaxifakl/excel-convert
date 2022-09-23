@@ -1,36 +1,17 @@
 {
-    "table": {
-        "1_a": {
-            "id": 1,
-            "name": "a",
-            "isPlayer": true,
-            "count": 1,
-            "arr": [1, 2, 3, 4],
-            "testCus": null,
-            "testObj": {
+    "key": ["id", "name", "isPlayer", "count", "arr", "testCus", "testObj", "bug"],
+    "data": [
+        [1, "a", true, 1, [1, 2, 3, 4], null, {
                 "num": 1
             },
-            "bug": [true, false]
-        },
-        "2_b": {
-            "id": 2,
-            "name": "b",
-            "isPlayer": false,
-            "count": 2,
-            "arr": [1],
-            "testCus": null,
-            "testObj": null,
-            "bug": [true, false]
-        },
-        "5_a": {
-            "id": 5,
-            "name": "a",
-            "isPlayer": true,
-            "count": 1,
-            "arr": [1, 2, 3, 4],
-            "testCus": null,
-            "testObj": null,
-            "bug": []
-        }
+            [true, false]
+        ],
+        [2, "b", false, 2, [1], null, null, [true, false]],
+        [5, "a", true, 1, [1, 2, 3, 4], null, null, []]
+    ],
+    "index": {
+        "1_a": 0,
+        "2_b": 1,
+        "5_a": 2
     }
 }

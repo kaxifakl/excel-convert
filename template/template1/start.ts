@@ -35,5 +35,27 @@ ec.excelConfig.getSheetObject = (sheet) => {
 
 let excelBook = ec.parse(buffer, 'test');
 let obj = excelBook.getJsonObject();
-fs.writeFileSync(path.join(__dirname, 'test.json'), JSON.stringify(obj))
-console.log(obj);
+// fs.writeFileSync(path.join(__dirname, 'test.json'), JSON.stringify(obj))
+// console.log(obj);
+
+let sheets = excelBook.sheets;
+let sheet = sheets[0];
+let keyArray = sheet.keyArray;
+let typeArray = sheet.typeArray;
+
+let outData: any = {}
+outData.key = keyArray.concat([]).filter(value => value != null);
+outData.data = [];
+outData.index = {}
+let index = 0;
+for (let key in obj.table) {
+    let data = obj.table[key];
+    outData.index[key] = index++;
+    let array: any = [];
+    for (let keyStr of outData.key) {
+        array.push(data[keyStr]);
+    }
+    outData.data.push(array);
+}
+fs.writeFileSync(path.join(__dirname, 'test.json'), JSON.stringify(outData))
+
