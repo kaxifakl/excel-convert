@@ -8,10 +8,10 @@ let ec = new ExcelConvert();
 
 ec.excelConfig.mode = 1;
 ec.excelConfig.defaultSignLine = {
-    1: [ec.excelConfig.DEFAULT_SIGN.default],
-    2: [ec.excelConfig.DEFAULT_SIGN.annotation],
-    3: [ec.excelConfig.DEFAULT_SIGN.key],
-    4: [ec.excelConfig.DEFAULT_SIGN.type],
+    1: ec.excelConfig.DEFAULT_SIGN.default,
+    2: ec.excelConfig.DEFAULT_SIGN.annotation,
+    3: ec.excelConfig.DEFAULT_SIGN.key,
+    4: ec.excelConfig.DEFAULT_SIGN.type,
 }
 ec.excelConfig.defaultSignParse['@'] = (sheet, array) => {
     sheet['mulKey'] = array[0];

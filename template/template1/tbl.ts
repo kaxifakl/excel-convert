@@ -39,7 +39,7 @@ export class Tbl<T>{
             return null;
         }
         let obj = {};
-        let keys = this.sourceData.keys;
+        let keys = this.sourceData.key;
         for (let i = 0, len = keys.length; i < len; i++) {
             let key = keys[i]
             obj[key] = data[i]
