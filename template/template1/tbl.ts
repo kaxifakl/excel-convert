@@ -1,7 +1,11 @@
-export class Tbl<T>{
+class Tbl<T>{
+    private cache: any = {};
     private sourceData: any = null;
     constructor(sourceData: any) {
         this.sourceData = sourceData;
+        this.getDataList();
+        this.sourceData.data = null;
+        this.sourceData.key = null;
     }
 
     public get(...key: string[] | number[]): T | null {
@@ -12,28 +16,31 @@ export class Tbl<T>{
             return null;
         }
 
-        let data = this.weapData(index);
+        let data = this.warpData(index);
         if (data == null) {
             return null;
         }
 
-        return JSON.parse(JSON.stringify(data)) as T;
+        return data as T;
     }
 
     public getDataList(): T[] {
         let array: any = [];
         for (let i = 0, len = this.sourceData.data.length; i < len; i++) {
-            let data = this.weapData(i);
+            let data = this.warpData(i);
             array.push(data);
         }
-        return JSON.parse(JSON.stringify(array)) as T[]
+        return array;
     }
 
     public get length(): number {
         return this.sourceData.data.length;
     }
 
-    private weapData(index: number): Object | null {
+    private warpData(index: number): Object | null {
+        if (this.cache[index] != null) {
+            return this.cache[index];
+        }
         let data = this.sourceData.data[index];
         if (data == null) {
             return null;
@@ -44,6 +51,23 @@ export class Tbl<T>{
             let key = keys[i]
             obj[key] = data[i]
         }
-        return data;
+        deepFreeze(obj);
+        this.cache[index] = obj;
+
+        return obj;
+    }
+}
+
+function deepFreeze(obj) {
+    if (typeof obj != 'object') {
+        throw Error('Type Error!')
+    }
+    Object.freeze(obj);
+    for (const key in obj) {
+        if (Object.hasOwnProperty.call(obj, key)) {
+            if (typeof obj[key] === 'object') {
+                deepFreeze(obj[key])
+            }
+        }
     }
 }
