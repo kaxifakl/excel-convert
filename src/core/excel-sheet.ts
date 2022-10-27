@@ -21,10 +21,13 @@ export class ExcelSheet {
 
     public jsonObject: any = null;
 
-    constructor(name: string, sourceData: any, excelConfig: ExcelConfig) {
+    public bookName: string = null;
+
+    constructor(name: string, sourceData: any, excelConfig: ExcelConfig, bookName: string) {
         this.name = name;
         this.sourceData = sourceData;
         this.excelConfig = excelConfig;
+        this.bookName = bookName;
         this.parse();
     }
 
@@ -60,12 +63,12 @@ export class ExcelSheet {
                 }
                 let typeStr = this.typeArray[i];
                 if (typeStr == null) {
-                    console.error(this.name + ':' + keyStr + '的类型为空值');
+                    console.error(this.bookName + '->' + this.name + ':' + keyStr + '的类型为空值');
                     continue;
                 }
                 let dataStr = dataLine[i];
                 if (dataStr == null) {
-                    console.log(this.name + ':' + keyStr + '的数据存在空值');
+                    console.log(this.bookName + '->' + this.name + ':' + keyStr + '的数据存在空值');
                 }
                 let data = this.parseData(dataStr, typeStr);
                 this.excelConfig.dataSetterParse(dataObject, keyStr, data, i);

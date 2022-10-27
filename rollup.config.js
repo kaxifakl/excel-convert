@@ -1,24 +1,22 @@
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import commonjs from '@rollup/plugin-commonjs';
+import { terser } from "rollup-plugin-terser";
+import dts from 'rollup-plugin-dts'
 
 export default [
     {
         input: './src/index.ts',
         output: {
-            dir: 'dist',
-            format: 'cjs',
-            entryFileNames: '[name].cjs.js',
+            name: 'excel-convert',
+            format: 'umd',
+            file: './dist/excel-convert.js',
         },
-        external:['xlsx'],
-        plugins: [resolve(), commonjs(), typescript()],
+        plugins: [resolve(), typescript(), terser()],
     }, {
         input: './src/index.ts',
         output: {
-            dir: 'dist',
-            format: 'esm',
-            entryFileNames: '[name].esm.js',
+            file: './dist/excel-convert.d.ts'
         },
-        plugins: [resolve(), commonjs(), typescript()],
+        plugins: [dts()]
     }
 ];

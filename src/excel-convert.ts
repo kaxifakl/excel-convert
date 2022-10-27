@@ -4,6 +4,13 @@ import { ExcelSheet } from './core/excel-sheet';
 import { ExcelConfig } from './excel-config';
 
 export class ExcelConvert {
+    private static _default: ExcelConvert = null;
+    public static get default(): ExcelConvert {
+        if (!this._default) {
+            this._default = new ExcelConvert();
+        }
+        return this._default;
+    }
 
     public excelConfig: ExcelConfig = new ExcelConfig();
 
@@ -33,7 +40,7 @@ export class ExcelConvert {
             //去除空单元格
             sheet = trimArray(sheet);
 
-            excelBook.sheets.push(new ExcelSheet(workSheetName, sheet, this.excelConfig))
+            excelBook.sheets.push(new ExcelSheet(workSheetName, sheet, this.excelConfig, excelBook.name))
         }
         return excelBook;
     }

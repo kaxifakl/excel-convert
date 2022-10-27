@@ -1,4 +1,4 @@
-class Tbl<T>{
+export class Tbl<T>{
     private cache: any = {};
     private sourceData: any = null;
     constructor(sourceData: any) {
