@@ -13,6 +13,8 @@ declare class ExcelSheet {
     typeArray: string[];
     /**值 */
     dataArray: any[];
+    /**注释 */
+    annoArray: string[];
     mainKeyIndex: number;
     jsonObject: any;
     bookName: string;

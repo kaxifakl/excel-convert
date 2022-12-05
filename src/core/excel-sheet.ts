@@ -16,6 +16,8 @@ export class ExcelSheet {
     public typeArray: string[] = null;
     /**值 */
     public dataArray: any[] = [];
+    /**注释 */
+    public annoArray: string[] = [];
 
     public mainKeyIndex: number = null;
 

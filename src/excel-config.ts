@@ -113,6 +113,12 @@ export class ExcelConfig {
             }
             sheet.dataArray.push(array);
         },
+        [this.DEFAULT_SIGN.annotation]: (sheet: ExcelSheet, array: any[]) => {
+            if (this.mode != 1) {
+                array.splice(this.signIndex, 1);
+            }
+            sheet.annoArray = array;
+        },
         [this.DEFAULT_SIGN.default]: this.defaultSignCall,
         [this.DEFAULT_SIGN.isTranspose]: this.defaultSignCall
     }
