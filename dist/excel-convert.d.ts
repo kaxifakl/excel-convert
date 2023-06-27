@@ -25,6 +25,7 @@ declare class ExcelSheet {
 }
 
 declare class ExcelConfig {
+    outLog: boolean;
     /**内置标记 */
     DEFAULT_SIGN: {
         /**是否转置 */

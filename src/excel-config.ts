@@ -1,6 +1,7 @@
 import { ExcelSheet } from "./core/excel-sheet";
 
 export class ExcelConfig {
+    public outLog: boolean = true;
     /**内置标记 */
     public DEFAULT_SIGN = {
         /**是否转置 */

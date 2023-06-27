@@ -65,12 +65,12 @@ export class ExcelSheet {
                 }
                 let typeStr = this.typeArray[i];
                 if (typeStr == null) {
-                    console.error(this.bookName + '->' + this.name + ':' + keyStr + '的类型为空值');
+                    this.excelConfig.outLog && console.error(this.bookName + '->' + this.name + ':' + keyStr + '的类型为空值');
                     continue;
                 }
                 let dataStr = dataLine[i];
                 if (dataStr == null) {
-                    console.log(this.bookName + '->' + this.name + ':' + keyStr + '的数据存在空值');
+                    this.excelConfig.outLog && console.log(this.bookName + '->' + this.name + ':' + keyStr + '的数据存在空值');
                 }
                 let data = this.parseData(dataStr, typeStr);
                 this.excelConfig.dataSetterParse(dataObject, keyStr, data, i);
@@ -82,7 +82,7 @@ export class ExcelSheet {
 
     private parseData(dataStr: string, typeStr: string): any {
 
-        if (dataStr == null) {
+        if (dataStr == null || dataStr == "") {
             return this.excelConfig.defaultTypeValue[typeStr];
         }
 
