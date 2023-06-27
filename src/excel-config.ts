@@ -1,7 +1,26 @@
 import { ExcelSheet } from "./core/excel-sheet";
 
 export class ExcelConfig {
+    public DEFAULT_ENV = {
+        /**客戶端 */
+        Client: "Client",
+        /**通用 */
+        Both: "Both",
+        /**服务端 */
+        Server: "Server",
+        /**废弃 */
+        Exclude: "Exclude"
+    }
+
+    /**是否是竖向表格 */
+    public isTranspose: boolean = false;
+
+    /**当前环境 */
+    public env: string = this.DEFAULT_ENV.Both;
+
+    /**是否打印log */
     public outLog: boolean = true;
+
     /**内置标记 */
     public DEFAULT_SIGN = {
         /**是否转置 */
@@ -15,7 +34,9 @@ export class ExcelConfig {
         /**数据 */
         "data": "$d",
         /**默认 */
-        "default": "@"
+        "default": "@",
+        /**导出环境 */
+        "env": "$e"
     }
 
     public DEFAULT_TAG = {
@@ -23,6 +44,7 @@ export class ExcelConfig {
         "mainKey": "$m",
     }
 
+    /**中英文符号替换 */
     public reg: string[] = [
         "！", "，", "。", "；", "~", "《", "》", "（", "）", "？",
         "”", "｛", "｝", "“", "：", "【", "】", "”", "‘", "’",
@@ -30,9 +52,15 @@ export class ExcelConfig {
         "'", "{", "}", "\"", ":", "{", "}", "\"", "\'", "\'"
     ]
 
+    /**无需替换符号的类型 */
+    public noRegTypeValues: string[] = [
+        "string", "string[]", "object"
+    ];
+
     /**标记索引位置 */
     public signIndex: number = 0;
 
+    /**默认类型初始值 */
     public defaultTypeValue = {
         "number": 0,
         "string": '',
@@ -43,6 +71,7 @@ export class ExcelConfig {
         "object": null
     }
 
+    /**默认类型解析 */
     public defaultTypeParse = {
         "number": (value: string) => { return parseFloat(value) },
         "string": (value: string) => { return value },
@@ -95,6 +124,7 @@ export class ExcelConfig {
         }
     }
 
+    /**默认标记解析 */
     public defaultSignParse = {
         [this.DEFAULT_SIGN.key]: (sheet: ExcelSheet, array: any[]) => {
             if (this.mode != 1) {
@@ -121,15 +151,27 @@ export class ExcelConfig {
             sheet.annoArray = array;
         },
         [this.DEFAULT_SIGN.default]: this.defaultSignCall,
-        [this.DEFAULT_SIGN.isTranspose]: this.defaultSignCall
+        [this.DEFAULT_SIGN.isTranspose]: this.defaultSignCall,
+        [this.DEFAULT_SIGN.env]: (sheet: ExcelSheet, array: any[]) => {
+            if (this.mode != 1) {
+                array.splice(this.signIndex, 1);
+            }
+            sheet.envArray = array;
+        }
     }
 
     /**默认标记行，设置后，无需再表格中添加标记 */
-    public defaultSignLine = {
+    public defaultSignLine: Record<number, string> = {
+        1: this.DEFAULT_SIGN.default,
+        2: this.DEFAULT_SIGN.annotation,
+        3: this.DEFAULT_SIGN.key,
+        4: this.DEFAULT_SIGN.type,
     }
 
-    /**模式0：标记模式  1：无标记模式（次模式下需要配置defaultSignLine） */
-    public mode: number = 0;
+    /**模式0：标记模式  1：无标记模式（此模式下需要配置defaultSignLine）
+     * 默认为无标记模式
+     */
+    public mode: number = 1;
 
     public dataSetterParse = (dataObject: any, keyStr: string, data: any, i: number) => {
         dataObject[keyStr] = data;

@@ -8,17 +8,17 @@ export class Tbl<T>{
         this.sourceData.key = null;
     }
 
-    public get(...key: string[] | number[]): T | null {
+    public get(...key: string[] | number[]): T  {
         let keys = [...key];
         let keyStr = keys.join('_')
         let index = this.sourceData.index[keyStr];
         if (index == null) {
-            return null;
+            return null as T;
         }
 
         let data = this.warpData(index);
         if (data == null) {
-            return null;
+            return null as T;
         }
 
         return data as T;

@@ -18,7 +18,10 @@ export class ExcelSheet {
     public dataArray: any[] = [];
     /**注释 */
     public annoArray: string[] = [];
+    /**环境 */
+    public envArray: string[] = [];
 
+    /**主键索引 */
     public mainKeyIndex: number = null;
 
     public jsonObject: any = null;
@@ -89,7 +92,7 @@ export class ExcelSheet {
         //中文符号替换
         let reg = this.excelConfig.reg;
         for (let i = 0; i < reg.length / 2; i++) {
-            if (dataStr != null) {
+            if (dataStr != null && !this.excelConfig.noRegTypeValues.includes(typeStr)) {
                 dataStr = dataStr.replace(new RegExp(reg[i], 'g'), reg[i + reg.length / 2]);
             }
         }

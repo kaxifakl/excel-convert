@@ -6,16 +6,8 @@ let url = path.join(__dirname, '../../test/test.xlsx');
 let buffer = fs.readFileSync(url);
 let ec = new ExcelConvert();
 
-ec.excelConfig.mode = 1;
-ec.excelConfig.defaultSignLine = {
-    1: ec.excelConfig.DEFAULT_SIGN.default,
-    2: ec.excelConfig.DEFAULT_SIGN.annotation,
-    3: ec.excelConfig.DEFAULT_SIGN.key,
-    4: ec.excelConfig.DEFAULT_SIGN.type,
-}
 ec.excelConfig.defaultSignParse['@'] = (sheet, array) => {
     sheet['mulKey'] = array[0];
-    sheet['mainKey'] = '';
 }
 ec.excelConfig.getSheetObject = (sheet) => {
     let obj = {};
@@ -35,8 +27,6 @@ ec.excelConfig.getSheetObject = (sheet) => {
 
 let excelBook = ec.parse(buffer, 'test');
 let obj = excelBook.getJsonObject();
-// fs.writeFileSync(path.join(__dirname, 'test.json'), JSON.stringify(obj))
-// console.log(obj);
 
 let sheets = excelBook.sheets;
 let sheet = sheets[0];
